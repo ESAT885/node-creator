@@ -1,0 +1,176 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.app {
+  --text-color: #e6eef8;
+  --muted: #94a3b8;
+  --accent: #60a5fa;
+  --panel-bg: linear-gradient(180deg, #0b1220 0%, #06121b 100%);
+  --panel-shadow: 0 6px 20px rgba(2, 6, 23, 0.6);
+  --app-bg: linear-gradient(180deg, #071029 0%, #07182a 100%);
+  --canvas-bg: linear-gradient(180deg, #071428 0%, #001220 100%);
+  --node-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  --node-border: rgba(255, 255, 255, 0.06);
+  --node-shadow: 0 8px 24px rgba(2, 6, 23, 0.5);
+  --node-title-color: #e6f6ff;
+  --handle-bg: #0ea5a4;
+  --handle-border: #ffffff;
+  --button-border: rgba(255, 255, 255, 0.06);
+  --button-color: var(--muted);
+  --button-hover-border: rgba(96, 165, 250, 0.6);
+  --edge-stroke: rgba(96, 165, 250, 0.95);
+
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 12px;
+  height: 100vh;
+  padding: 16px;
+  background: var(--app-bg);
+  color: var(--text-color);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.app.light-theme {
+  --text-color: #0f172a;
+  --muted: #475569;
+  --accent: #2563eb;
+  --panel-bg: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  --panel-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  --app-bg: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+  --canvas-bg: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  --node-bg: linear-gradient(180deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.02));
+  --node-border: rgba(148, 163, 184, 0.28);
+  --node-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  --node-title-color: #0f172a;
+  --handle-bg: #0ea5a4;
+  --handle-border: #0f172a;
+  --button-border: rgba(148, 163, 184, 0.4);
+  --button-color: #1e293b;
+  --button-hover-border: rgba(37, 99, 235, 0.5);
+  --edge-stroke: rgba(37, 99, 235, 0.75);
+}
+
+.panel {
+  background: var(--panel-bg);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: var(--panel-shadow);
+}
+
+h1 {
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+button {
+  background: transparent;
+  border: 1px solid var(--button-border);
+  color: var(--button-color);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+button:hover,
+button:focus-visible {
+  border-color: var(--button-hover-border);
+  color: var(--accent);
+  outline: none;
+}
+
+button.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.theme-toggle {
+  min-width: 160px;
+}
+
+.canvas-wrap {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  background: var(--canvas-bg);
+  border-radius: 12px;
+  display: block;
+  position: relative;
+  transition: background 0.25s ease;
+}
+
+.node {
+  position: absolute;
+  min-width: 110px;
+  padding: 8px 10px;
+  background: var(--node-bg);
+  border-radius: 10px;
+  border: 1px solid var(--node-border);
+  box-shadow: var(--node-shadow);
+  cursor: grab;
+  user-select: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.node.dragging {
+  cursor: grabbing;
+}
+
+.node .title {
+  font-weight: 600;
+  color: var(--node-title-color);
+}
+
+.node small {
+  color: var(--muted);
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.node .handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--handle-bg);
+  border: 2px solid var(--handle-border);
+  z-index: 51;
+}
+
+svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.hint {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}

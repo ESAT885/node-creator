@@ -1,0 +1,76 @@
+<div class="app" [class.dark-theme]="theme === 'dark'" [class.light-theme]="theme === 'light'">
+      <aside class="panel">
+        <h1>Basit Diyagram Editörü</h1>
+        <div class="controls">
+          <div class="row">
+            <button class="theme-toggle" (click)="toggleTheme()">
+              {{ theme === 'dark' ? 'Açık Temaya Geç' : 'Koyu Temaya Geç' }}
+            </button>
+          </div>
+          <div class="row">
+            <button id="btn-add">Yeni Düğüm (Çift tık)</button>
+            <button 
+              [class.active]="modeConnect" 
+              (click)="toggleConnectMode()">
+              {{ modeConnect ? 'Bağla (Aktif)' : 'Bağla (Pasif)' }}
+            </button>
+          </div>
+          <div class="row">
+            <button (click)="exportJSON()">JSON Dışa Aktar</button>
+            <button (click)="fileInput.click()">JSON İçeri Aktar</button>
+          </div>
+          <input 
+            #fileInput 
+            type="file" 
+            accept="application/json" 
+            style="display:none"
+            (change)="onFileSelected($event)" />
+          <div class="hint">Kullanım:
+            <ul style="margin:8px 0 0 18px;color:var(--muted)">
+              <li>Çift tıklayarak tuvalde yeni düğüm oluşturun.</li>
+              <li>Sürükleyerek konumlandırın.</li>
+              <li>Bağla modunu açıp önce kaynak sonra hedef düğüme tıklayarak bağlantı oluşturun.</li>
+              <li>Bir düğümü seçip Delete ile silebilirsiniz.</li>
+              <li>Sağ üstten JSON ile kaydedip yükleyebilirsiniz.</li>
+            </ul>
+          </div>
+          <div style="margin-top:12px">
+            <button (click)="clearAll()">Hepsini Sil</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="canvas-wrap panel">
+        <svg #svgCanvas [attr.width]="canvasWidth" [attr.height]="canvasHeight" style="z-index: 50;">
+          <path 
+            *ngFor="let edge of edges"
+            [attr.d]="getEdgePath(edge)"
+            stroke="var(--edge-stroke)"
+            stroke-width="2"
+            fill="none"
+            [attr.data-from]="edge.from"
+            [attr.data-to]="edge.to" />
+        </svg>
+        <div 
+          #canvas 
+          class="canvas"
+          (dblclick)="onCanvasDblClick($event)"
+          (click)="onCanvasClick($event)">
+          <div 
+            *ngFor="let node of nodes"
+            class="node"
+            [class.dragging]="draggingNode?.id === node.id"
+            [style.left.px]="node.x"
+            [style.top.px]="node.y"
+            [style.boxShadow]="selectedNode?.id === node.id ? '0 10px 30px rgba(30,80,150,.35)' : ''"
+            [style.outline]="connectingFrom?.id === node.id ? '2px dashed rgba(96,165,250,0.6)' : ''"
+            (mousedown)="onNodeMouseDown($event, node)"
+            (click)="onNodeClick($event, node)"
+            (dblclick)="onNodeDblClick($event, node)">
+            <div class="title">{{ node.label }}</div>
+            <small>ID: {{ node.id }}</small>
+            <div class="handle" aria-hidden></div>
+          </div>
+        </div>
+      </main>
+    </div>
