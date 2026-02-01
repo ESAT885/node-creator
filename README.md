@@ -1,5 +1,11 @@
 # NodeCreator
+## 📸 Screenshots
 
+<p align="center">
+  <img src="assets/mainPage.png" alt="Vue Poke Screenshot 1" width="100%" />
+  &nbsp;&nbsp;
+ 
+</p>
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.7.
 
 ## Development server
